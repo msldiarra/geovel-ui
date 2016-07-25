@@ -1,0 +1,72 @@
+type CarPosition implements Node {
+  id: ID!
+  reference: String
+  time: String
+  location: Location
+}
+
+type CarPositionsConnection {
+  pageInfo: PageInfo!
+  edges: [CarPositionsEdge]
+}
+
+type CarPositionsEdge {
+  node: CarPosition
+  cursor: String!
+}
+
+type Contact implements Node {
+  id: ID!
+  firstName: String
+  lastName: String
+  credentials: [Login]
+}
+
+type ContactInfo implements Node {
+  id: ID!
+  email: String
+}
+
+type Location implements Node {
+  id: ID!
+  latitude: Float
+  longitude: Float
+}
+
+type Login implements Node {
+  id: ID!
+  login: String
+  password: String
+  enabled: Boolean
+}
+
+interface Node {
+  id: ID!
+}
+
+type Owner implements Node {
+  id: ID!
+  name: String
+  contacts: [Contact]
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  node(id: ID!): Node
+  viewer(userID: Int!): User
+}
+
+type User implements Node {
+  id: ID!
+  credentials: Login
+  contact: Contact
+  info: ContactInfo
+  company: Owner
+  cars(after: String, first: Int, before: String, last: Int): CarPositionsConnection
+}
