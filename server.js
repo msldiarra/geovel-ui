@@ -10,9 +10,9 @@ import bodyParser from 'body-parser';
 import crypto from 'crypto';
 import request from 'request';
 
-const APP_PORT = 3000;
-const API_PORT = 3001;
-const GRAPHQL_PORT = 8181;
+const APP_PORT = 3010;
+const API_PORT = 3011;
+const GRAPHQL_PORT = 8182;
 
 console.log("process.env.NODE_ENV : ");
 console.log(process.env.NODE_ENV)

@@ -34,7 +34,7 @@ class Login extends React.Component {
     render() {
         return (
             <form className="form-signin">
-                <h2 className="form-signin-heading text-center">geovel</h2>
+                <h2 className="form-signin-heading text-center">Geovel</h2>
                 <hr/>
                 <div className="form-group">
                     <label htmlFor="username" className="sr-only">Identifiant</label>
@@ -46,7 +46,7 @@ class Login extends React.Component {
                     <input type="password" ref="password" className="form-control"
                            placeholder="Mot de passe"/>
                 </div>
-                <button className="btn btn-warning btn-block" type="submit" onClick={this.login.bind(this)}>
+                <button className="btn btn-success btn-block" type="submit" onClick={this.login.bind(this)}>
                     Connectez-vous
                 </button>
                 {this.state.authenticationError && (

@@ -197,16 +197,17 @@ a {
     border-top-right-radius: 0;
 }
 
-.btn-warning, .btn-warning:hover {
-    background-color:#FF5722;
+.btn-success, .btn-success:hover {
+    background-color:#4CAF50;
     font-size:16px;
     padding:10px;
+    border-color:#4CAF50;
 }
 
 .content {}
 .padding-25 { margin-top: 50px; }
 .navbar-custom {
-    background-color:#FF5722;
+    background-color:#4CAF50;
     color:#ffffff;
     border-radius:0;
 }
@@ -225,23 +226,23 @@ a {
 
 /* mobile version */
 .navbar-custom .navbar-toggle {
-    border-color: #FF5722;
+    border-color: #4CAF50;
 }
 .navbar-custom .navbar-toggle:hover,
 .navbar-custom .navbar-toggle:focus {
-    background-color: #FF5722;
+    background-color: #4CAF50;
 }
 .navbar-custom .navbar-toggle .icon-bar {
     background-color: #fff;
 }
 .navbar-custom .navbar-nav > li > a {
     color: #fff;
-    background-color: #FF5722;
+    background-color: #4CAF50;
 }
 .navbar-custom .navbar-nav > .active > a:hover,
 .navbar-custom .navbar-nav > .active > a:focus {
     color: #fff;
-    background-color: #FF5722;
+    background-color: #4CAF50;
 }
 .navbar-custom .navbar-nav > .active  {
     font-size: 17px;
@@ -250,7 +251,7 @@ a {
 .navbar-custom .navbar-nav > .open > a:hover,
 .navbar-custom .navbar-nav > .open > a:focus {
     color: #fff;
-    background-color: #FF5722;
+    background-color: #4CAF50;
 }
 
 .page-header {
