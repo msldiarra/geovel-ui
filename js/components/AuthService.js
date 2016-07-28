@@ -11,7 +11,7 @@ class Auth {
     login(login, password) {
 
         return this.handleAuth(when(request({
-            url: 'http://localhost:3011/api/authenticate',
+            url: 'http://37.187.196.21:3011/api/authenticate',
             method: 'POST',
             crossOrigin: true,
             type: 'json',

@@ -85,7 +85,9 @@ app.post('/api/authenticate', (request, response) => {
         });
 });
 
-app.listen(apiPort);
+app.listen(apiPort, () => {
+    console.log(`API is available at http://localhost:${apiPort}`);
+});
 
 
 if(!isProduction) {
