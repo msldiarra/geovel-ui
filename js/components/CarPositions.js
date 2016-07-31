@@ -1,66 +1,123 @@
 import React from 'react';
 import Relay from 'react-relay';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import _ from "lodash";
+import canUseDOM from "can-use-dom";
+import { default as ScriptjsLoader } from "react-google-maps/lib/async/ScriptjsLoader";
+import { GoogleMap, Marker } from "react-google-maps";
+import { triggerEvent } from "react-google-maps/lib/utils";
 
-class CarPositions extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            initialZoom: 8,
-            mapCenterLat: 43.6425569,
-            mapCenterLng: -79.4073126,
+/*
+ * This is the modify version of:
+ * https://developers.google.com/maps/documentation/javascript/examples/event-arguments
+ *
+ * Loaded using async loader.
+ */
+ class CarPositions extends React.Component {
+
+     static version = Math.ceil(Math.random() * 22);
+
+     state = {
+        markers: [],
+     }
+
+     constructor(props, context) {
+         super(props, context);
+         //this.handleWindowResize = _.throttle(::this.handleWindowResize, 500);
+     }
+
+     componentDidMount() {
+
+        if (!canUseDOM) {
+            return;
         }
-    }
+
+        let { markers } = this.state;
+
+        this.props.customer.cars.edges.map(function (edge) {
+
+            if (edge.node.location)
+                markers.push({
+                    position: {lat: edge.node.location.latitude, lng: edge.node.location.longitude},
+                    label: edge.node.reference,
+                    map: this.state.map
+                })
+
+        }.bind(this));
+
+        this.setState({markers: markers});
+
+        //window.addEventListener(`resize`, this.handleWindowResize);
+     }
 
 
-    componentDidMount() {
+     componentWillUnmount() {
+         if (!canUseDOM) {
+             return;
+         }
+         //window.removeEventListener(`resize`, this.handleWindowResize);
+     }
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat:17.570692, lng: -3.996166},
-            streetViewControl: false,
-            disableDefaultUI: true,
-            zoom: 6
-        });
+     handleMarkerRightclick(index, event) {
 
-        //map.setOptions({styles: styleArray })
+        let { markers } = this.state;
+        markers = markers;
+        this.setState({ markers });
+     }
 
-        this.setState({map: map});
-    }
+     handleNewBehaviorGoogleMapLoad(googleMap) {
+        if (!googleMap) {
+            return;
+        }
+     }
 
-
-    render() {
-
-
-
-         this.props.customer.cars.edges.map(function(edge){
-
-             if(edge.node.location)
-                 new google.maps.Marker({
-                     position: {lat:edge.node.location.latitude, lng: edge.node.location.longitude},
-                     label: edge.node.reference,
-                     map: this.state.map
-                 });
-
-         }.bind(this));
-
-        /*
-        new google.maps.Marker({
-            position: {lat:17.570692, lng: -3.996166},
-            label: 'A00001',
-            map: this.state.map
-        });*/
+     handleWindowResize() {
+         console.log(`handleWindowResize`);
+         triggerEvent(this._googleMapComponent, `resize`);
+     }
 
 
+     renderNewBehavior() {
 
-        /*
-        * <div className="">
-         <ReactCSSTransitionGroup transitionName="example" transitionAppear={true} transitionAppearTimeout={500} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
-         <div id="map"></div>
-         </ReactCSSTransitionGroup>
-         </div>*/
-        return (<div id="map-container"><div id="map"></div></div>);
-    }
+        return (
+            <ScriptjsLoader
+                hostname={"maps.googleapis.com"}
+                pathname={"/maps/api/js"}
+                query={{ key:"AIzaSyDNZ5o4qepOVtmqmJlD5gHeuL-v3W2VVAA", libraries: `geometry,drawing,places` }}
+                loadingElement={
+          <div {...this.props} style={{ height: `100%` }}>
+
+          </div>
+        }
+                containerElement={
+          <div {...this.props} style={{ height: `700px` }} />
+        }
+                googleMapElement={
+          <GoogleMap
+            ref={::this.handleNewBehaviorGoogleMapLoad}
+            defaultZoom={6}
+            defaultCenter={{lat:17.570692, lng: -3.996166}}
+            onClick={() => {}}
+          >
+            {this.state.markers.map((marker, index) => {
+              const onRightclick = this.handleMarkerRightclick.bind(this, index);
+              return (
+                <Marker key={index}
+                  {...marker}
+                  onRightclick={onRightclick}
+                />
+              );
+            })}
+          </GoogleMap>
+        }
+            />
+        );
+     }
+
+     render() {
+        return this.renderNewBehavior();
+     }
 }
 
 export default Relay.createContainer(CarPositions, {
