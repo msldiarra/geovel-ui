@@ -8,7 +8,8 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <div className="page-header">
+                <div className="page-header container-padding">
+                    <br/>
                     <h2>Vos véhicules</h2>
                 </div>
                 <CarPositions customer={this.props.viewer} />

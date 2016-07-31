@@ -4,7 +4,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import _ from "lodash";
 import canUseDOM from "can-use-dom";
 import { default as ScriptjsLoader } from "react-google-maps/lib/async/ScriptjsLoader";
-import { GoogleMap, Marker } from "react-google-maps";
+import { GoogleMap, Marker, InfoWindow } from "react-google-maps";
 import { triggerEvent } from "react-google-maps/lib/utils";
 
 
@@ -101,12 +101,14 @@ import { triggerEvent } from "react-google-maps/lib/utils";
             onClick={() => {}}
           >
             {this.state.markers.map((marker, index) => {
+              const content = `Car ${marker.label} <br/> Vitesse inconnue`;
               const onRightclick = this.handleMarkerRightclick.bind(this, index);
               return (
                 <Marker key={index}
                   {...marker}
                   onRightclick={onRightclick}
-                />
+                ><InfoWindow content={content}/>
+                </Marker>
               );
             })}
           </GoogleMap>
